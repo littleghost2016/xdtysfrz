@@ -16,8 +16,8 @@ func TestEncryptAndDecrypt(t *testing.T) {
 	t.Log("encryptedPasswordAfterBase64: ", encryptedPasswordAfterBase64)
 
 	decryptedPassword := DecryptPassword(encryptedPassword, key, iv)
-	if !bytes.Equal(decryptedPassword[64:], []byte(password)) {
-		t.Log(decryptedPassword[64:])
+	if !bytes.Equal(decryptedPassword, []byte(password)) {
+		t.Log(decryptedPassword)
 		t.Error("EncryptAndDecrypt过程出错")
 	}
 }

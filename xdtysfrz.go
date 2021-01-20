@@ -9,7 +9,9 @@ func GetEncryptedPassword(password, key, iv string) (encryptedPassword []byte) {
 }
 
 func DecryptPassword(cryptedPassword []byte, key, iv string) (password []byte) {
-	password, _ = AESDecryptUsingCBCMode(cryptedPassword, []byte(key), []byte(iv))
+	passwordWithRandomByteSlice, _ := AESDecryptUsingCBCMode(cryptedPassword, []byte(key), []byte(iv))
+
+	password = passwordWithRandomByteSlice[64:]
 
 	return
 }
