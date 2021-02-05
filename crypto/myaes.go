@@ -1,4 +1,4 @@
-package xdtysfrz
+package crypto
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-// 使用PKCS7进行填充，填充过程是在加密之前
+// PKCS7Padding 使用PKCS7进行填充，填充过程是在加密之前
 // PKCS7的填充规则为，还差几个字节能达到blockSize的大小，则填充的每个字节为这个数字
 // 例：[97, 98, 99]需要填充到16字节还差13个字节，则填充后的内容为[97 98 99 13 13 13 13 13 13 13 13 13 13 13 13 13]
 // 输入：未填充未加密的原始数据，数据块大小
@@ -22,7 +22,7 @@ func PKCS7Padding(uncryptedData []byte, blockSize int) (paddedUncryptedData []by
 	return
 }
 
-// 去除PKCS7填充
+// PKCS7UnPadding 去除PKCS7填充
 // 读取最后一个字节，去除掉对应长度的填充
 // 输入：填充过的未加密数据
 // 输出：未填充未加密的原始数据
@@ -35,7 +35,7 @@ func PKCS7UnPadding(paddedUncryptedData []byte) (unpaddedUncryptedData []byte) {
 	return
 }
 
-// AES加密
+// AESEncryptUsingCBCMode AES加密
 // 输入：原始数据（明文），密钥
 // 输出：加密后的数据（密文），错误
 func AESEncryptUsingCBCMode(rawData, key, iv []byte) (cryptedData []byte, functionError error) {
@@ -81,6 +81,7 @@ func AESEncryptUsingCBCMode(rawData, key, iv []byte) (cryptedData []byte, functi
 	return
 }
 
+// AESDecryptUsingCBCMode AES解密
 func AESDecryptUsingCBCMode(encryptedData, key, iv []byte) (unpaddedUncryptedData []byte, functionError error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -109,27 +110,8 @@ func AESDecryptUsingCBCMode(encryptedData, key, iv []byte) (unpaddedUncryptedDat
 	return
 }
 
-// func Encrypt(rawData, key []byte) (string, error) {
-// 	data, err := AESEncryptUsingCBCMode(rawData, key)
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	return base64.StdEncoding.EncodeToString(data), nil
-// }
-
-// func Decrypt(rawData string, key []byte) (string, error) {
-// 	data, err := base64.StdEncoding.DecodeString(rawData)
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	dnData, err := AESDecryptUsingCBCMode(data, key, []byte("1111111111111111"))
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	return string(dnData), nil
-// }
-
-func getARandomByteSliceOfTheSpecifiedLength(randomByteSliceLength int) (randomByteSliceOfTheSpecifiedLength []byte) {
+// GetARandomByteSliceOfTheSpecifiedLength 获取随机字节切片
+func GetARandomByteSliceOfTheSpecifiedLength(randomByteSliceLength int) (randomByteSliceOfTheSpecifiedLength []byte) {
 	// 方法一：此处随机字符串的获取方式参考自 https://zhuanlan.zhihu.com/p/90830253
 	src := rand.NewSource(time.Now().UnixNano())
 	const initialString = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678"

@@ -1,4 +1,4 @@
-package xdtysfrz
+package crypto
 
 import (
 	"bytes"
@@ -46,7 +46,7 @@ func TestAESDecryptUsingCBCMode(t *testing.T) {
 func TestGetARandomByteSliceOfTheSpecifiedLength(t *testing.T) {
 	stringLength := 16
 
-	result := getARandomByteSliceOfTheSpecifiedLength(stringLength)
+	result := GetARandomByteSliceOfTheSpecifiedLength(stringLength)
 	if len(result) != stringLength {
 		t.Error("TestGetARandomStringOfTheSpecifiedLength获取随机字符串函数错误")
 		// } else {
